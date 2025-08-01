@@ -1,28 +1,61 @@
 services:
+  frontend:
+    build: ./frontend
+    container_name: react_frontend
+    restart: always
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    volumes:
+      - ./frontend:/app
+    env_file:
+      - .env
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://adonis_backend:3333
+
   backend:
     build: ./backend
     container_name: adonis_backend
     restart: always
     ports:
-      - "3333:3333"
+      - "${BACKEND_PORT:-3333}:3333"
     volumes:
-      - ./backend:/app
+      - ./backend:/home/node/app
+    env_file:
+      - .env
     depends_on:
       - db
+    environment:
+      - NODE_ENV=${APP_ENV:-production}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USER=admin
+      - DB_PASSWORD=${DB_PASSWORD}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - APP_KEY=base64:${APP_KEY}
 
   db:
     image: mysql:8.0
     container_name: mysql_db
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: talentos
-      MYSQL_USER: talentos_user
-      MYSQL_PASSWORD: talentos_pass
     ports:
-      - "3306:3306"
+      - "${DB_PORT:-3306}:3306"
     volumes:
       - db_data:/var/lib/mysql
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   db_data:
