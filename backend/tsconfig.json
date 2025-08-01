@@ -1,0 +1,15 @@
+{
+  "extends": "@adonisjs/tsconfig/tsconfig.app.json",
+  "compilerOptions": {
+    "strict": true,
+    "rootDir": "./",
+    "outDir": "./build",
+    "types": ["@adonisjs/core", "@adonisjs/auth", "@adonisjs/lucid"],
+    "baseUrl": ".",
+    "paths": {
+      "#middleware/*": ["app/Middleware/*"],
+      "App/*": ["app/*"],
+      "#controllers/*": ["app/Controllers/*"]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "*.html": "html",
+    "*.js": "javascript",
+    "*.ts": "typescript"
+  },
+
+  "css.lint.unknownAtRules": "ignore",
+
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "html",
+    "javascript": "javascript",
+    "typescript": "typescript"
+  },
+
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+
+  "editor.formatOnSave": true
