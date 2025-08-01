@@ -1,17 +1,16 @@
 import Usuario from '../models/usuario.js'
-import { hash } from '@adonisjs/hash'
+import Hash from '@adonisjs/core/services/hash'
 
 export default class UsuarioService {
-  async criarUsuario(dados: { email: string; senha: string }) {
-    const existe = await Usuario.findBy('email', dados.email)
-    if (existe) {
-      throw new Error('E-mail já está em uso')
-    }
+  async criarUsuario({ email, senha }: { email: string; senha: string }) {
+    const emailNormalizado = email.trim().toLowerCase()
+    const existe = await Usuario.findBy('email', emailNormalizado)
+    if (existe) throw new Error('E-mail já está em uso')
 
-    const senhaCriptografada = await hash.make(dados.senha)
+    const senhaCriptografada = await Hash.use('argon').make(senha)
 
     const usuario = await Usuario.create({
-      email: dados.email,
+      email: emailNormalizado,
       senha: senhaCriptografada,
     })
 
@@ -20,5 +19,24 @@ export default class UsuarioService {
       email: usuario.email,
       criadoEm: usuario.createdAt,
     }
+  }
+
+  async autenticarUsuario(email: string, senha: string) {
+    const usuario = await Usuario.findBy('email', email.trim().toLowerCase())
+    if (!usuario) return null
+
+    const senhaValida = await Hash.use('argon').verify(usuario.senha, senha)
+    if (!senhaValida) return null
+
+    return usuario
+  }
+
+  async listarUsuarios() {
+    const usuarios = await Usuario.all()
+    return usuarios.map((u) => ({
+      id: u.id,
+      email: u.email,
+      criadoEm: u.createdAt,
+    }))
   }
 }
