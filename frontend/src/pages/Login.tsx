@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { loginUsuario } from "../services/usuario";
+import { useState } from "react";
+import { loginUsuario } from "../services/login";
 import { useAuth } from "../hooks/useAuth";
 
 export default function Login() {

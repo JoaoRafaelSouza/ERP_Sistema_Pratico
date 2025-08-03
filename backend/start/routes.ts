@@ -1,8 +1,8 @@
 import router from '@adonisjs/core/services/router'
-import UsuariosController from '#controllers/usuarios_controller'
+import LoginController from '#controllers/login_controller'
 import AuthMiddleware from '#middleware/auth_middleware'
 
-const usuariosController = new UsuariosController()
+const loginController = new LoginController()
 const authMiddleware = new AuthMiddleware()
 
 router.get('/', async () => {
@@ -11,10 +11,10 @@ router.get('/', async () => {
 
 router
   .group(() => {
-    router.get('/usuarios', usuariosController.index.bind(usuariosController))
-    router.post('/logout', usuariosController.logout.bind(usuariosController))
+    router.get('/usuarios', loginController.index.bind(loginController))
+    router.post('/logout', loginController.logout.bind(loginController))
   })
   .use([authMiddleware.handle.bind(authMiddleware)])
 
-router.post('/register', usuariosController.store.bind(usuariosController))
-router.post('/login', usuariosController.login.bind(usuariosController))
+router.post('/register', loginController.store.bind(loginController))
+router.post('/login', loginController.login.bind(loginController))

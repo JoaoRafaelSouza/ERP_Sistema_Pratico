@@ -1,7 +1,7 @@
 import Usuario from '../models/usuario.js'
 import Hash from '@adonisjs/core/services/hash'
 
-export default class UsuarioService {
+export default class LoginDao {
   async criarUsuario({ email, senha }: { email: string; senha: string }) {
     const emailNormalizado = email.trim().toLowerCase()
     const existe = await Usuario.findBy('email', emailNormalizado)

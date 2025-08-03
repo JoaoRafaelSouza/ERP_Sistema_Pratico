@@ -1,10 +1,11 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
-import { AutoAccessors } from '../../DAOS/auto_accessors.js'
+import { AutoAccessors } from '../DAOS/auto_accessors.js'
+import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 
 @AutoAccessors
 export default class Usuario extends BaseModel {
-  static accessTokens = true
+  // static accessTokens = true
 
   @column({ isPrimary: true })
   declare id: number
@@ -86,4 +87,6 @@ export default class Usuario extends BaseModel {
   setUpdatedAt(data: DateTime) {
     this.updatedAt = data
   }
+
+  static accessTokens = DbAccessTokensProvider.forModel(Usuario)
 }

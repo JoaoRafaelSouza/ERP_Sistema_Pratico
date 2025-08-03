@@ -4,7 +4,7 @@ import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Usuario from './usuario.js'
 import Formacao from './formacao.js'
-import { AutoAccessors } from '../../DAOS/auto_accessors.js'
+import { AutoAccessors } from '../DAOS/auto_accessors.js'
 
 @AutoAccessors
 export default class Candidato extends BaseModel {
