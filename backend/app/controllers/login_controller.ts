@@ -3,7 +3,7 @@ import Login from '../DAOS/login_dao.js'
 import jwt from 'jsonwebtoken'
 import env from '#start/env'
 
-export default class UsuariosController {
+export default class LoginController {
   async store(ctx: HttpContext) {
     const LoginDao = new Login()
     const dados = ctx.request.only(['email', 'senha'])

@@ -1,3 +1,7 @@
+Para criar os métodos Get e Set dentro das classes Models:
 selecao.getGestorId()
 selecao.setDataEntrevista(DateTime.now())
+
+Para testar a conexão com o banco de dados:
+node ace db:seed
 
